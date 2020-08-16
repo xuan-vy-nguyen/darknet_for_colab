@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Playfair+Display:900|Raleway:300,800");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .clipped {
+
+            /* background: url("https://www.w3schools.com/css/trolltunga.jpg") no-repeat #fff; */
+            /* background-size: cover; */
+            /* color: rgba(255, 255, 255, 0.3); */
+
+            font-family: "Playfair Display", serif;
+        }
+
+        #title {
+            overflow: hidden;
+            color: #fff;
+            mix-blend-mode: difference;
+            padding: 30px calc(15% - 20px);
+        }
+
+        input {
+            display: block;
+        }
+
+        .header {
+            /* height: 250px;
+            width: 200px; 
+            overflow: visible; */
+            /* background: url("https://www.w3schools.com/css/trolltunga.jpg") no-repeat #fff; */
+            /* background-size: cover; */
+            margin: 20px 20px 10px 20px;
+            border-radius: 8px;
+            box-shadow: 2px 3px 20px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            display: block;
+            width: 100%;
+            float: left;
+            max-width: 800px;
+        }
+
+        .upload {
+            /* position: fixed; */
+            /* right: 40px;
+            top: 40px; */
+            width: 40%;
+            margin: 10px auto 10px auto;
+            /* display: block; */
+            /* float: left; */
+            /* overflow: visible; */
+            /* border-style: dashed; */
+        }
+
+        input[name="titleInput"] {
+            width: 100%;
+            height: 50px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            font-size: 0.8em;
+            font-family: "Raleway", sans-serif;
+            font-weight: 300;
+            border-radius: 3px;
+            border: 0;
+            box-shadow: 2px 1px 10px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        #uploadFile {
+            display: none;
+        }
+
+        #uploadButton {
+            margin-bottom: 20px;
+            margin-right: 10px;
+            font-family: "Raleway", sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            height: 50px;
+            width: 100%;
+            /* font-size: 0.8em; */
+            background-color: white;
+            border-radius: 3px;
+            border: 0;
+            text-align: left;
+            padding: 10px 15px;
+            box-shadow: 2px 1px 10px 0 rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        #detectButton {
+            margin-bottom: 20px;
+            margin-left: 10px;
+            font-family: "Raleway", sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            height: 50px;
+            width: 100%;
+            /* font-size: 0.8em; */
+            background-color: white;
+            border-radius: 3px;
+            border: 0;
+            text-align: left;
+            padding: 10px 15px;
+            box-shadow: 2px 1px 10px 0 rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        content {
+            display: block;
+            padding: 30px;
+            color: #fff;
+            opacity: 0.8;
+            padding: 30px 15%;
+            font-size: 20px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-family: "Raleway", sans-serif;
+            font-weight: 800;
+            letter-spacing: 0.5pt;
+        }
+
+        hr {
+            margin: 10px 0 10px 0;
+            width: 30px;
+            height: 6px;
+            background-color: #2980b9;
+            border: 0;
+            text-align: left;
+        }
+
+        p {
+            font-size: 0.9em;
+            font-family: "Raleway", sans-serif;
+            font-weight: 300;
+            overflow: hidden;
+        }
+
+        #inputImg {
+            width: 50%;
+            margin-right: 10px
+        }
+
+        #outputImg {
+            width: 50%;
+            margin-left: 10px
+        }
+
+        .headerImage {
+            /* background-color: wheat; */
+            color: white;
+            font-size: 30px;
+            margin: 20px 10px 2px 10px;
+            width: 50%;
+            font-family: "Raleway", sans-serif;
+            text-align: center;
+        }
+
+        .classCanvas {
+            height: 200px;
+        }
+
+        .classLabel {
+            font-size: 15px;
+            color: white;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Detect Object</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <content>
+            <h2>Detect Object Service</h2>
+            <hr>
+            <p>This is a AI service system using for detect objects for every one. If you want to use this system,
+                just click 'Upload image' button and select your picture, our service will return bounding box and
+                labeled images for you. Good luck and have fun!
+            </p>
+        </content>
+
+        <!-- <div class="d-flex justify-content-center">
+            <div class="header clipped headerImage">Input image</div>
+            <div class="header clipped headerImage">Output image</div>
+        </div> -->
+        <div class="header d-flex justify-content-center">
+            <img class="clipped" id="inputImg"
+                src="https://qph.fs.quoracdn.net/main-qimg-99262df5d519ae1c5196f7626249583b.webp"></img>
+            <!-- <img class="clipped" id="outputImg"
+                src="https://www.arunponnusamy.com/images/yolo-object-detection-opencv-python/yolo-object-detection.jpg"></img> -->
+        </div>
+
+        <div class="upload d-flex d-flex justify-content-between">
+            <button id="uploadButton">Upload image</button>
+            <button id="detectButton">Detect objects</button>
+            <input id="uploadFile" type="file" name="image" class="img" value="Upload image">
+        </div>
+        <div class="progress" style="margin-bottom: 10px;">
+            <div id="myBar" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40"
+                aria-valuemin="0" aria-valuemax="100" style="width:0%">
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="header clipped headerImage">Result: </div>
+        </div>
+        <div id="detectedObjects" class="d-flex flex-sm-wrap">
+            <!-- <div class="objectElement">
+                <div class="classLabel"></div>
+                <canvas class="classCanvas"></canvas>
+            </div> -->
+        </div>
+    </div>
+
+    <script>
+        var uploadedFile = null;
+        $('input[name=titleInput]').keyup(function () {
+            if (window.requestAnimationFrame) {
+                $('.clipped').hide();
+            }
+            $('#title').text(this.value);
+            if (window.requestAnimationFrame) {
+                window.requestAnimationFrame(function () {
+                    $('.clipped').show();
+                })
+            }
+        });
+
+        // image upload
+        $("#uploadButton").click(function () {
+            $("#uploadFile").click();
+        });
+
+        // image detect
+        $("#detectButton").click(function () {
+            if (uploadedFile == null) {
+                alert("You must select your picture!");
+                return;
+            }
+            formElem = new FormData();
+            formElem.append("image-name", "hello.png");
+            formElem.append("user-name", "XuanVy");
+            formElem.append("image", uploadedFile);
+            var request = new XMLHttpRequest();
+
+            request.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 201) {
+                    width = 100;
+                    document.getElementById("myBar").style.width = "100%";
+                    var json = JSON.parse(this.response);
+                    console.log(json['boundingbox']);
+
+                    $("#detectedObjects").empty();
+                    const image = document.getElementById('inputImg');
+
+                    for (var i = 0; i < json['boundingbox'].length; ++i) {
+                        var bigDiv = document.createElement("DIV");
+                        bigDiv.className = "objectElement";
+
+                        var label = document.createElement("DIV");
+                        label.className = "classLabel";
+                        label.innerHTML = json['boundingbox'][i][0];
+                        bigDiv.appendChild(label);
+
+                        var canvas = document.createElement("CANVAS");
+                        canvas.className = "classCanvas";
+                        bigDiv.appendChild(canvas);
+                        ctx = canvas.getContext('2d');
+                        ctx.drawImage(
+                            image, 
+                            json['boundingbox'][i][2][0]-json['boundingbox'][i][2][2]/2, 
+                            json['boundingbox'][i][2][1]-json['boundingbox'][i][2][3]/2, 
+                            json['boundingbox'][i][2][2], json['boundingbox'][i][2][3], 
+                            0, 0, 
+                            json['boundingbox'][i][2][2], json['boundingbox'][i][2][3]);//json['boundingbox'][i][2][0], json['boundingbox'][i][2][1], json['boundingbox'][i][2][2], json['boundingbox'][i][2][3]);
+
+                        document.getElementById('detectedObjects').appendChild(bigDiv);
+                    }
+                }
+            };
+            async function sendImage() {
+                move();
+                await request.open('POST', '/yolov4/detections', /* async = */ true);
+                await request.send(formElem);
+            };
+            sendImage();
+        });
+
+        $(document).ready(function () {
+            ImageUpload.init();
+        });
+
+        var ImageUpload = {
+            init: function () {
+                $("#uploadFile").change(function () {
+                    ImageUpload.readURL(this);
+                });
+            },
+            readURL: function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById("inputImg").src = e.target.result;
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                    uploadedFile = input.files[0];
+                }
+            },
+        }
+
+        var width = 0;
+        function move() {
+            width = 0;
+            var i = 0;
+            if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("myBar");
+                width = 1;
+                var id = setInterval(frame, 800);
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(id);
+                        i = 0;
+                    } else {
+                        width++;
+                        elem.style.width = width + "%";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
